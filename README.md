@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <h1>Hello World! My GitHub Page is live.</h1>
+    This is my GitHub page.
   </body>
 </html>
