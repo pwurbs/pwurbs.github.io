@@ -8,12 +8,17 @@
     <style>
         /* Base Styles */
         :root {
-            --bg-color: #f6f8fa;
-            --text-main: #24292f;
-            --text-muted: #57606a;
-            --link-color: #0969da;
+            --bg-color: #f3f6f9;
+            --text-main: #0f172a;
+            --text-muted: #5b6b7c;
+            --link-color: #1d5bb8;
             --card-bg: #ffffff;
-            --border-color: #d0d7de;
+            --border-color: #e2e8f0;
+            --accent-border: #5eead4;
+            /* Colors taken from the wuflow logo: blue -> teal -> green */
+            --brand-gradient: linear-gradient(135deg, #2b5ea7 0%, #17a2a0 55%, #7dc24b 100%);
+            --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.04);
+            --shadow-hover: 0 8px 24px rgba(23, 162, 160, 0.18);
         }
 
         body {
@@ -21,6 +26,13 @@
             line-height: 1.6;
             color: var(--text-main);
             background-color: var(--bg-color);
+            /* Soft color glow in the brand colors behind the content */
+            background-image:
+                radial-gradient(900px 600px at 0% 0%, rgba(43, 94, 167, 0.14), transparent 60%),
+                radial-gradient(800px 600px at 100% 10%, rgba(23, 162, 160, 0.12), transparent 60%),
+                radial-gradient(900px 700px at 50% 100%, rgba(125, 194, 75, 0.12), transparent 60%);
+            background-attachment: fixed;
+            min-height: 100vh;
             margin: 0;
             padding: 0;
         }
@@ -44,18 +56,41 @@
             text-decoration: underline;
         }
 
+        .gradient-text {
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
         /* Bio Section */
         .header {
             margin-bottom: 3rem;
         }
 
+        .header h1 {
+            font-size: 2.25rem;
+            letter-spacing: -0.02em;
+        }
+
         .bio-card {
+            position: relative;
+            overflow: hidden;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 1.5rem 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            border-left: 4px solid var(--link-color);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .bio-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            background: var(--brand-gradient);
         }
 
         .bio-card p {
@@ -66,11 +101,24 @@
 
         /* Projects Section */
         .section-title {
+            position: relative;
             font-size: 1.5rem;
+            letter-spacing: -0.01em;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
             margin-top: 2rem;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 56px;
+            height: 3px;
+            border-radius: 3px;
+            background: var(--brand-gradient);
         }
 
         .repo-grid {
@@ -83,16 +131,26 @@
         .repo-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 1.5rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: block;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .repo-thumb {
+            flex: 0 0 auto;
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
         }
 
         .repo-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-decoration: none;
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-border);
         }
 
         .repo-card h3 {
@@ -101,11 +159,6 @@
             display: flex;
             align-items: center;
             color: var(--link-color);
-        }
-
-        .repo-card h3 svg {
-            margin-right: 8px;
-            fill: var(--text-muted);
         }
 
         .repo-card p {
@@ -118,25 +171,40 @@
         .blog-section {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            padding: 0.75rem 1rem 0.75rem 1.25rem;
             margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .blog-section p {
+            margin: 0;
+            flex: 1 1 280px;
+        }
+
+        .blog-section .btn {
+            white-space: nowrap;
         }
 
         .btn {
             display: inline-block;
-            background-color: #24292f;
+            background: var(--brand-gradient);
             color: white;
-            padding: 12px 28px;
-            border-radius: 6px;
+            padding: 8px 20px;
+            border-radius: 999px;
             font-weight: 600;
-            margin-top: 1rem;
-            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 8px rgba(23, 162, 160, 0.25);
+            transition: filter 0.2s ease, box-shadow 0.2s ease;
         }
 
         .btn:hover {
-            background-color: #000000;
+            filter: brightness(1.08);
+            box-shadow: 0 4px 14px rgba(23, 162, 160, 0.35);
             text-decoration: none;
             color: white;
         }
@@ -151,19 +219,37 @@
         .article-item {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            margin-bottom: 10px;
-            border-radius: 6px;
-            transition: background-color 0.2s;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .article-item:hover {
-            background-color: #fcfcfc;
+            border-color: var(--accent-border);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .article-link:hover {
+            text-decoration: none;
         }
 
         .article-link {
-            display: block;
-            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 20px 12px 12px;
             font-weight: 500;
+        }
+
+        .article-thumb {
+            flex: 0 0 auto;
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
         }
 
         .article-link span {
@@ -173,13 +259,20 @@
             font-weight: normal;
             margin-top: 4px;
         }
+
+        @media (max-width: 500px) {
+            .article-thumb {
+                width: 80px;
+                height: 56px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         
         <header class="header">
-            <h1>Hello, I'm Peter 👋</h1>
+            <h1>Hello, I'm <span class="gradient-text">Peter</span> 👋</h1>
             <div class="bio-card">
                 <p>I’m a curious architect and engineer with extensive professional experience, always eager to explore new ideas and expand my knowledge. There are countless opportunities, tools, and technologies waiting to be discovered. I’m a big fan of free and open-source software, which empowers developers and engineers to select their preferred providers and preserve their autonomy.</p>
                 <p style="margin-top: 1rem; margin-bottom: 0;"><a href="https://www.linkedin.com/in/pwurbs" target="_blank">LinkedIn Profile</a></p>
@@ -191,60 +284,81 @@
             <div class="repo-grid">
                 
                 <div class="repo-card">
-                    <h3>
-                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"></path></svg>
-                        <a href="https://github.com/pwurbs/wuflow" target="_blank">wuflow</a>
-                    </h3>
-                    <p>wuFlow is a simple, modern, and lightweight issue tracking and planning application. <a href="https://github.com/pwurbs/wuflow/wiki" target="_blank">Wiki</a></p>
+                    <img class="repo-thumb" src="images/wuflow.png" alt="">
+                    <div>
+                        <h3><a href="https://github.com/pwurbs/wuflow" target="_blank">wuflow</a></h3>
+                        <p>wuFlow is a simple, modern, and lightweight issue tracking and planning application. <a href="https://github.com/pwurbs/wuflow/wiki" target="_blank">Wiki</a></p>
+                    </div>
                 </div>
 
-                <a href="https://github.com/pwurbs/max2mqtt" target="_blank" class="repo-card">
-                    <h3>
-                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"></path></svg>
-                        max2mqtt
-                    </h3>
-                    <p>max2mqtt is a MAX! to MQTT Bridge Home Assistant Add-on.</p>
-                </a>
+                <div class="repo-card">
+                    <img class="repo-thumb" src="images/max2mqtt.png" alt="">
+                    <div>
+                        <h3><a href="https://github.com/pwurbs/max2mqtt" target="_blank">max2mqtt</a></h3>
+                        <p>max2mqtt is a MAX! to MQTT Bridge Home Assistant Add-on.</p>
+                    </div>
+                </div>
 
-                <a href="https://codeberg.org/pwurbs/ilias-chart" target="_blank" class="repo-card">
-                    <h3>
-                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"></path></svg>
-                        ilias-chart
-                    </h3>
-                    <p>Helm Chart für Ilias LMS</p>
-                </a>
+                <div class="repo-card">
+                    <img class="repo-thumb" src="images/ilias.svg" alt="">
+                    <div>
+                        <h3><a href="https://codeberg.org/pwurbs/ilias-chart" target="_blank">ilias-chart</a></h3>
+                        <p>Helm Chart for ILIAS Learning Management System</p>
+                    </div>
+                </div>
 
             </div>
 
             <h2 class="section-title">Writing & Insights</h2>
             <div class="blog-section">
-                <p>I share guides on technical architecture and DevOps culture.</p>
+                <p>I write about DevOps, open-source tooling, agile practices and hands-on experiments with AI.</p>
                 <a href="https://medium.com/@pwurbs" target="_blank" class="btn">Follow me on Medium</a>
             </div>
 
             <ul class="article-list">
                 <li class="article-item">
-                    <a href="https://medium.com/@pwurbs/how-to-integrate-sonarqube-sonarcloud-7946308c0e33" target="_blank" class="article-link">
-                        How to integrate SonarQube (SonarCloud) for free without losing control over my code
-                        <span>Technical Guide • Medium</span>
-                    </a>
-                </li>
-                <li class="article-item">
-                    <a href="https://medium.com/@pwurbs/bridging-the-gap-integrating-devops-and-itil-f4bb6c7963a1" target="_blank" class="article-link">
-                        Bridging the Gap: Integrating DevOps and ITIL
-                        <span>Culture & Strategy • Medium</span>
-                    </a>
-                </li>
-                <li class="article-item">
-                    <a href="https://medium.com/@pwurbs/beyond-jira-reclaiming-agile-sovereignty-with-open-source-14556d709c65" target="_blank" class="article-link">
-                        Beyond Jira: Reclaiming Agile Sovereignty with Open Source - A pragmatic review of self-hosted alternatives for modern teams and why I’ve started building a leaner solution for our own needs.
-                        <span>Tools & Productivity • Medium</span>
+                    <a href="https://medium.com/@pwurbs/how-ai-analyzed-my-heating-data-and-found-a-boiler-three-times-too-big-cc5c45ce5463" target="_blank" class="article-link">
+                        <img class="article-thumb" src="https://cdn-images-1.medium.com/v2/resize:fit:400/1*aUcqZ8xki3UYlp9G1pc5uQ.png" alt="" loading="lazy">
+                        <div>
+                            How AI Analyzed My Heating Data and Found a Boiler Three Times Too Big
+                            <span>Data & AI • Medium</span>
+                        </div>
                     </a>
                 </li>
                 <li class="article-item">
                     <a href="https://medium.com/@pwurbs/issue-attributes-what-you-actually-need-6068e5b74d4b" target="_blank" class="article-link">
-                        Issue Attributes: What You Actually Need - Clean up your issue tracker by using only the most essential attributes for your team.
-                        <span>Tools & Productivity • Medium</span>
+                        <img class="article-thumb" src="https://cdn-images-1.medium.com/v2/resize:fit:400/1*2twrxkVYSmqA10gvdx5sLQ.png" alt="" loading="lazy">
+                        <div>
+                            Issue Attributes: What You Actually Need - Clean up your issue tracker by using only the most essential attributes for your team.
+                            <span>Tools & Productivity • Medium</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-item">
+                    <a href="https://medium.com/@pwurbs/beyond-jira-reclaiming-agile-sovereignty-with-open-source-14556d709c65" target="_blank" class="article-link">
+                        <img class="article-thumb" src="https://cdn-images-1.medium.com/v2/resize:fit:400/1*N5-9C_8tpI7f2SjZ8X93mA.png" alt="" loading="lazy">
+                        <div>
+                            Beyond Jira: Reclaiming Agile Sovereignty with Open Source - A pragmatic review of self-hosted alternatives for modern teams and why I’ve started building a leaner solution for our own needs.
+                            <span>Tools & Productivity • Medium</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-item">
+                    <a href="https://medium.com/@pwurbs/bridging-the-gap-integrating-devops-and-itil-f4bb6c7963a1" target="_blank" class="article-link">
+                        <img class="article-thumb" src="https://cdn-images-1.medium.com/v2/resize:fit:400/1*vlkrYCkOAnwRTRmZRrFtOA.png" alt="" loading="lazy">
+                        <div>
+                            Bridging the Gap: Integrating DevOps and ITIL
+                            <span>Culture & Strategy • Medium</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-item">
+                    <a href="https://medium.com/@pwurbs/how-to-integrate-sonarqube-sonarcloud-7946308c0e33" target="_blank" class="article-link">
+                        <img class="article-thumb" src="https://cdn-images-1.medium.com/v2/resize:fit:400/1*j8lCZfs-YJqujAiu1Dr50Q.png" alt="" loading="lazy">
+                        <div>
+                            How to integrate SonarQube (SonarCloud) for free without losing control over my code
+                            <span>Technical Guide • Medium</span>
+                        </div>
                     </a>
                 </li>
             </ul>
