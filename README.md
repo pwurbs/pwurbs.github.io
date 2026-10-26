@@ -6,7 +6,7 @@ This repository hosts my professional portfolio and links to my open-source proj
 View the rendered version here: [https://pwurbs.github.io/](https://pwurbs.github.io/)
 
 ### 🛠 Projects Included
-* **wuFlow**: Modern issue tracking.
+* **wuFlow**: Lean, self-hosted issue tracker.
 * **max2mqtt**: Home Assistant bridge.
 
 ### ✍️ Writing
